@@ -16,11 +16,11 @@ describe('DashboardComponent', () => {
 
   beforeEach(async () => {
     ratingMock = {
-      rateUp: jest.fn(b => b)
+      rateUp: jest.fn(b => b),
     };
 
     bsMock = {
-      getAll: jest.fn().mockReturnValue(of([]))
+      getAll: jest.fn().mockReturnValue(of([])),
     };
 
     book = {
@@ -38,8 +38,8 @@ describe('DashboardComponent', () => {
       providers: [
         // BRS ersetzen: Wenn BRS angefordert wird, wird ratingMock ausgeliefert
         { provide: BookRatingService, useValue: ratingMock },
-        { provide: BookStoreService, useValue: bsMock }
-      ]
+        { provide: BookStoreService, useValue: bsMock },
+      ],
     }).compileComponents();
   });
 
@@ -60,5 +60,22 @@ describe('DashboardComponent', () => {
     // Assert (Verhalten)
     expect(ratingMock.rateUp).toHaveBeenCalledTimes(1);
     expect(ratingMock.rateUp).toHaveBeenCalledWith(book);
+  });
+
+  it('should replace the updated book', () => {
+    component.books = [
+      { isbn: '111', title: 'A' },
+      { isbn: '222', title: 'B' },
+      { isbn: '333', title: 'C' },
+      { ...book, isbn: '444' },
+    ] as Book[]; // type assertion!
+
+    const changedBook = { isbn: '222', title: 'CHANGED!' } as Book;
+
+    // Act
+    component.updateList(changedBook);
+
+    // Assert
+    expect(component.books).toMatchSnapshot();
   });
 });

@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DashboardComponent should replace the updated book 1`] = `
+Array [
+  Object {
+    "isbn": "111",
+    "title": "A",
+  },
+  Object {
+    "isbn": "222",
+    "title": "CHANGED!",
+  },
+  Object {
+    "isbn": "333",
+    "title": "C",
+  },
+  Object {
+    "authors": Array [],
+    "description": "",
+    "firstThumbnailUrl": null,
+    "isbn": "444",
+    "rating": 3,
+    "title": "",
+  },
+]
+`;
