@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 import { BookStoreService } from './book-store.service';
@@ -20,7 +20,7 @@ describe('BookStoreService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should make an HTTP call for getAll', () => {
+  it('should make an HTTP call for getAll', fakeAsync(() => {
     // HTTP-Request auslösen
     service.getAll().subscribe(res => {
       expect(res).toEqual([]); // Antwortwert prüfen
@@ -31,12 +31,13 @@ describe('BookStoreService', () => {
 
     // Request beantworten
     req.flush([]);
+    tick();
 
     // HTTP-Methode muss stimmen
     expect(req.request.method).toBe('GET');
 
     // sicherstellen, dass keine Requests mehr offen sind!
     httpCtrl.verify();
-  });
+  }));
 });
 
