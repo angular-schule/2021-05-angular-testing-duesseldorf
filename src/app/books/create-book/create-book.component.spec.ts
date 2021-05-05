@@ -1,6 +1,9 @@
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Location } from '@angular/common';
+import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
+import { Book } from '../shared/book';
 
 import { BookStoreService } from '../shared/book-store.service';
 
@@ -18,7 +21,7 @@ describe('CreateBookComponent', () => {
       declarations: [CreateBookComponent],
       providers: [{ provide: BookStoreService, useValue: bsMock }],
       schemas: [NO_ERRORS_SCHEMA],
-      imports: [],
+      imports: [RouterTestingModule.withRoutes([{ path: 'books/:isbn', children: [] }])],
     }).compileComponents();
   });
 
@@ -28,7 +31,12 @@ describe('CreateBookComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should dummy test', () => {
-    expect(true).toBeTruthy();
-  });
+  it('should redirect to detail page after create', fakeAsync(() => {
+    const location = TestBed.inject(Location);
+    const book = { isbn: '111', title: '' } as Book;
+    component.createBook(book);
+    tick();
+
+    expect(location.path()).toMatchInlineSnapshot(`"/books/111"`);
+  }));
 });
