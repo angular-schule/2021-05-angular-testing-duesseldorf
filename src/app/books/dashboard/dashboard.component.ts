@@ -15,33 +15,13 @@ export class DashboardComponent implements OnInit {
   books: Book[];
 
   constructor(
-    // AKTIVIEREN für HTTP
-    // private bs: BookStoreService,
+    private bs: BookStoreService,
     private rs: BookRatingService
     ) { }
 
     ngOnInit() {
-    // AKTIVIEREN für HTTP
-    // this.bs.getAll().subscribe(books => this.books = books);
-    this.books = [
-      {
-        isbn: '111',
-        title: 'Angular',
-        description: 'Grundlagen und Best Practices',
-        authors: ['Ferdinand Malcher', 'Johannes Hoppe'],
-        rating: 5,
-        firstThumbnailUrl: null
-      },
-      {
-        isbn: '222',
-        title: 'React',
-        description: 'Das andere Framework',
-        authors: ['Max Mustermann', 'Erika Musterfrau'],
-        rating: 3,
-        firstThumbnailUrl: null
-      },
-    ];
-  }
+      this.bs.getAll().subscribe(books => this.books = books);
+    }
 
   rateUp(book: Book) {
     const ratedBook = this.rs.rateUp(book);
