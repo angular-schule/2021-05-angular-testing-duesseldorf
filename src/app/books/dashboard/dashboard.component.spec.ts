@@ -9,8 +9,13 @@ describe('DashboardComponent', () => {
   let component: DashboardComponent;
   let fixture: ComponentFixture<DashboardComponent>;
   let book: Book;
+  let ratingMock: Partial<BookRatingService>;
 
   beforeEach(async () => {
+    ratingMock = {
+      rateUp: jest.fn(b => b)
+    };
+
     book = {
       isbn: '',
       title: '',
@@ -23,6 +28,10 @@ describe('DashboardComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [DashboardComponent],
       schemas: [NO_ERRORS_SCHEMA],
+      providers: [
+        // BRS ersetzen: Wenn BRS angefordert wird, wird ratingMock ausgeliefert
+        { provide: BookRatingService, useValue: ratingMock }
+      ]
     }).compileComponents();
   });
 
@@ -34,5 +43,14 @@ describe('DashboardComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should call the service method rateUp() for rateUp()', () => {
+    // Act
+    component.rateUp(book); // wird sonst durch Event aus dem Template aufgerufen
+
+    // Assert (Verhalten)
+    expect(ratingMock.rateUp).toHaveBeenCalledTimes(1);
+    expect(ratingMock.rateUp).toHaveBeenCalledWith(book);
   });
 });
