@@ -23,9 +23,9 @@ export class SearchComponent implements OnInit {
     this.results$ = this.term$.pipe(
       debounceTime(500),
       filter(term => term.length >= 3 || term.length === 0),
-      tap(() => this.loading = true),
+      // tap(() => this.loading = true),
       switchMap(term => this.bs.search(term)),
-      tap(() => this.loading = false),
+      // tap(() => this.loading = false),
     );
   }
 
