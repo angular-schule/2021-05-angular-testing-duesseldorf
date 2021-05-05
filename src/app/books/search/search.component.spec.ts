@@ -79,7 +79,7 @@ describe('SearchComponent', () => {
         component.ngOnInit();
 
         const expectedBooks = [{ title: 'Book DDDD' }];
-        expectObservable(component.results$).toBe('--- --- --- 500ms x', { x: expectedBooks });
+        expectObservable(component.results$).toBe('--- --- --- 500ms 1000ms x', { x: expectedBooks });
       });
     });
   });
