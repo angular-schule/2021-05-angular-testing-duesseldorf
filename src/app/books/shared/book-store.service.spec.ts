@@ -19,5 +19,24 @@ describe('BookStoreService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
+  it('should make an HTTP call for getAll', () => {
+    // HTTP-Request auslösen
+    service.getAll().subscribe(res => {
+      expect(res).toEqual([]); // Antwortwert prüfen
+    });
+
+    // Request mit bestimmter URL abfangen
+    const req = httpCtrl.expectOne('https://api.angular.schule/books');
+
+    // Request beantworten
+    req.flush([]);
+
+    // HTTP-Methode muss stimmen
+    expect(req.request.method).toBe('GET');
+
+    // sicherstellen, dass keine Requests mehr offen sind!
+    httpCtrl.verify();
+  });
 });
 

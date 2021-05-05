@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Book } from './book';
-import { of } from 'rxjs';
+import { merge, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable({
